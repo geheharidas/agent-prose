@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.whl
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+.DS_Store
+.audit.jsonl

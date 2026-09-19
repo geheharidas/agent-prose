@@ -1,0 +1,7 @@
+- id: agent-prose
+  name: agent-prose
+  description: Deterministic Anti-RLHF Stylometric Gate for Autonomous Agents by Nitivra
+  entry: agent-prose
+  language: python
+  types: [markdown]
+  stages: [pre-commit]
