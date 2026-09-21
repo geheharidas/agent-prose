@@ -20,6 +20,6 @@ This architecture eliminates third-party supply chain risks and network vulnerab
 
 ## Reporting a Vulnerability
 
-If you discover a potential security defect, please report it responsibly by emailing Nitivra at `hello@nitivra.com`.
+If you discover a potential security defect, please report it responsibly by emailing Nitivra at `gehe@nitivra.com.au`.
 
 We investigate all reports promptly and acknowledge valid contributions.

@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agent-prose"
-version = "1.0.0"
+version = "1.0.1"
 description = "Deterministic Anti-RLHF Stylometric Gate for Autonomous Agents by Nitivra"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.9"
 authors = [
-    { name = "Nitivra", email = "hello@nitivra.com" }
+    { name = "Nitivra", email = "gehe@nitivra.com.au" }
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",

@@ -4,7 +4,7 @@ Created and maintained by Nitivra.
 """
 from __future__ import annotations
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __author__ = "Nitivra"
 
 from agent_prose.engine import ProseEngine
