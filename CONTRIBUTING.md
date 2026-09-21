@@ -2,7 +2,7 @@
 
 Thank you for your interest in improving `agent-prose`.
 
-This project is created and maintained by **Nitivra** under the MIT License.
+This project is created and maintained by **Nitivra** (`gehe@nitivra.com.au`) under the MIT License.
 
 ---
 
@@ -63,3 +63,9 @@ All tests must pass before submitting a pull request.
 2. Implement your changes with accompanying tests.
 3. Ensure all tests pass cleanly.
 4. Open a pull request against `main` describing the rationale and regional linguistic sources.
+
+---
+
+## 5. Contact
+
+For questions regarding regional dialect standards or contribution guidelines, email `gehe@nitivra.com.au`.

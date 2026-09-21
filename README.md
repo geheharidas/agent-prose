@@ -1,26 +1,26 @@
-<!-- writing-quality: off -->
+<!-- agent-prose: off -->
 # agent-prose
 
 > Deterministic Anti-RLHF Stylometric Gate for Autonomous Agents.  
-> Created and maintained by **Nitivra**.
+> Created and maintained by **Nitivra** (<gehe@nitivra.com.au>).
 
 [![CI](https://github.com/geheharidas/agent-prose/actions/workflows/test.yml/badge.svg)](https://github.com/geheharidas/agent-prose/actions)
 [![PyPI](https://img.shields.io/pypi/v/agent-prose.svg)](https://pypi.org/project/agent-prose/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.9+](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/downloads/)
 
-Traditional linters check human grammar. They search for misspellings and punctuation errors that modern large language models rarely make.
+Traditional linters check human spelling and punctuation. Large language models rarely make those mistakes.
 
-They completely miss the real reason human readers identify AI-generated text in seconds: **cadence symmetry, evasive verbs and synthetic balance**.
+Human readers identify synthetic writing through deeper structural patterns: **cadence uniformity, evasive linking verbs and artificial balance**.
 
-Foundation models trained through Reinforcement Learning from Human Feedback (RLHF) develop predictable stylometric tells:
-- **Monotone Sentence Cadence**: Running four or five consecutive sentences of nearly identical word length (18 to 24 words).
-- **Copula Avoidance**: Refusing to write direct statements like "X is Y", substituting evasive constructions such as "X serves as Y", "stands as" or "represents a".
-- **Prestige Filler Stems**: Overusing academic scaffolding words like "crucial", "nuance", "bedrock", "linchpin" and "cornerstone".
-- **Synthetic Balance**: Forcing thoughts into artificial balance structures like "not only X, but also Y".
-- **Tacked-on Participial Tails**: Appending weak participial clauses to sentence endings (", ensuring that...", ", enabling...").
+Foundation models refined through Reinforcement Learning from Human Feedback (RLHF) exhibit predictable stylometric habits:
+- **Monotone Sentence Cadence**: Running four or five consecutive sentences of nearly identical word count (18 to 24 words).
+- **Copula Avoidance**: Refusing to write direct statements like "X is Y", substituting evasive phrases such as "X serves as Y", "stands as" or "represents a".
+- **Prestige Scaffolding Stems**: Overusing academic filler like "crucial", "nuance", "bedrock", "linchpin" and "cornerstone".
+- **Synthetic Balance**: Forcing clauses into formulaic balance structures like "not only X, but also Y".
+- **Tacked-on Participial Tails**: Appending weak trailing participial phrases to sentence endings (", ensuring that...", ", enabling...").
 
-`agent-prose` is a zero-dependency Python gate and pre-commit hook that detects these structural distortions deterministically in under two milliseconds.
+`agent-prose` is a zero-dependency Python quality gate and pre-commit hook that detects these structural distortions deterministically in under two milliseconds.
 
 ---
 
@@ -42,11 +42,16 @@ If your documentation reads like generic corporate boilerplate, readers tune out
    - **Australian English (`en-AU`)**: Australian Government Style Manual and Macquarie standard. Strict `-ise` spellings, British orthography (`colour`, `centre`) and Oxford comma banned.
    - **American English (`en-US`)**: Chicago Manual of Style and AP standard. `-ize` spellings and serial comma permitted.
    - **British English (`en-GB`)**: Oxford UK standard.
-4. **Two-Tier Severity Architecture**:
+4. **Technical Shields**:
+   - **Code blocks**: Triple-backtick fenced blocks are shielded against false positives.
+   - **Inline code**: Backtick spans are ignored during spelling and banned-word scans.
+   - **Markdown tables**: Tabular columns and pipes do not distort sentence cadence statistics.
+   - **Frontmatter**: YAML frontmatter headers are bypassed automatically.
+5. **Two-Tier Severity Architecture**:
    - **Blocking Defects (Exit Code 1)**: Fatal issues including non-ASCII smart quotes, invalid dialect spellings, contractions and raw flow arrows (`->`) in narrative prose.
    - **Advisory Warnings**: Cadence anomalies, prestige stems and synthetic balance.
    - **Promotion Quota (Exit Code 2)**: Accumulating four or more advisory warnings promotes the scan to a blocking process exit.
-5. **Agent Swarm Remediation Bounds**: Includes recommended two-pass repair loop specifications to prevent autonomous agents from getting trapped in circular editing loops.
+6. **Agent Swarm Remediation Bounds**: Includes recommended two-pass repair loop specifications to prevent autonomous agents from getting trapped in circular editing loops.
 
 ---
 
@@ -86,6 +91,12 @@ Scan an entire directory recursively:
 agent-prose docs/
 ```
 
+Pipe standard input directly:
+
+```bash
+cat specification.md | agent-prose -
+```
+
 Specify a dialect profile:
 
 ```bash
@@ -100,6 +111,12 @@ Run in strict mode (all warnings become blocking errors):
 
 ```bash
 agent-prose --strict docs/
+```
+
+Suppress passing files to view only issues:
+
+```bash
+agent-prose --quiet docs/
 ```
 
 Emit machine-readable JSON results for automated CI tooling:
@@ -117,11 +134,29 @@ Add `agent-prose` to your repository `.pre-commit-config.yaml` to gate pull requ
 ```yaml
 repos:
   - repo: https://github.com/geheharidas/agent-prose
-    rev: v1.0.0
+    rev: v1.0.1
     hooks:
       - id: agent-prose
         args: ["--locale", "en-AU"]
 ```
+
+---
+
+## File Opt-Out Directives
+
+To exclude intentional raw text, negative test fixtures or third-party vendored documentation from evaluation, add an opt-out marker to the first five lines of the file:
+
+```markdown
+<!-- agent-prose: off -->
+```
+
+Or use the shared alias:
+
+```markdown
+<!-- writing-quality: off -->
+```
+
+`agent-prose` will mark the file as `[EXEMPT]` and exit cleanly with code 0.
 
 ---
 
@@ -162,6 +197,14 @@ print(claude_prompt)
 `agent-prose` relies exclusively on Python standard library modules (`re`, `pathlib`, `collections`, `statistics`, `json`, `locale`).
 
 It introduces zero third-party supply chain risks, installs in seconds and scans complete technical specifications in under two milliseconds.
+
+---
+
+## Contributing and Security
+
+- Guidelines for submitting dialect profiles: [`CONTRIBUTING.md`](CONTRIBUTING.md)
+- Security reporting policy: [`SECURITY.md`](SECURITY.md)
+- Direct contact: `gehe@nitivra.com.au`
 
 ---
 
