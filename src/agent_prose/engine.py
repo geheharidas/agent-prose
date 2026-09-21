@@ -82,7 +82,7 @@ CONTRACTIONS = re.compile(
 
 CONSTRUCTION_PATTERNS = [
     # 3.5a -- "X -- Y" headline
-    (re.compile(r"^[#\s>*-]*[A-Za-z][^\n]{3,60}\s+(?:--|\u2014|\u2013)\s+[A-Za-z][^\n]{3,80}$"),
+    (re.compile(r"^[#\s>*-]*[A-Za-z][^\n]{3,60}\s+(?:--|\u2014|\u2013)\s+[A-Za-z][^\n]{3,80}$", re.MULTILINE),
         "subject/headline 'X -- Y' construction (3.5a)"),
     # 3.5b/c -- "Not just X but Y" / "It is not X -- it is Y"
     (re.compile(r"\b(?:it\s+is\s+)?not\s+(?:just|merely|only|simply)\b[^\n.!?]{0,80}\b(?:but|--|\u2014)\b", re.IGNORECASE),
@@ -454,10 +454,25 @@ class ProseEngine:
     # Individual Checks
     # -----------------------------------------------------------------------
 
+    @staticmethod
+    def _filter_code_lines(lines: Sequence[str]) -> List[Tuple[int, str]]:
+        """Return (line_num, line) tuples excluding lines inside fenced code blocks."""
+        filtered: List[Tuple[int, str]] = []
+        in_code = False
+        for line_num, line in enumerate(lines, 1):
+            stripped = line.strip()
+            if stripped.startswith("```"):
+                in_code = not in_code
+                continue
+            if in_code:
+                continue
+            filtered.append((line_num, line))
+        return filtered
+
     def scan_banned_words(self, lines: Sequence[str]) -> List[Tuple[int, str, str]]:
         """Find banned AI-tell stems, respecting profile domain exemptions."""
         findings = []
-        for line_num, line in enumerate(lines, 1):
+        for line_num, line in self._filter_code_lines(lines):
             for pattern, label in self._compiled_banned_patterns:
                 if pattern.search(line):
                     if not self.profile.is_exempt(label, line):
@@ -468,7 +483,7 @@ class ProseEngine:
         """Count transition word overuse."""
         count = 0
         locations = []
-        for line_num, line in enumerate(lines, 1):
+        for line_num, line in self._filter_code_lines(lines):
             line_lower = line.lower()
             for tw in TRANSITION_WORDS:
                 if re.search(r"\b" + tw + r"\b", line_lower):
@@ -498,7 +513,7 @@ class ProseEngine:
         if self.profile.allow_ize_spelling:
             return []
         findings = []
-        for line_num, line in enumerate(lines, 1):
+        for line_num, line in self._filter_code_lines(lines):
             for match in IZE_PATTERN.finditer(line):
                 word = match.group().lower()
                 if word not in IZE_EXCEPTIONS:
@@ -508,7 +523,7 @@ class ProseEngine:
     def scan_contractions(self, lines: Sequence[str]) -> List[Tuple[int, str, str]]:
         """Flag informal contractions."""
         findings = []
-        for line_num, line in enumerate(lines, 1):
+        for line_num, line in self._filter_code_lines(lines):
             for match in CONTRACTIONS.finditer(line):
                 findings.append((line_num, match.group(), line.strip()[:100]))
         return findings
@@ -586,7 +601,19 @@ class ProseEngine:
     def scan_constructions(self, lines: Sequence[str]) -> List[Tuple[int, str, str]]:
         """Find AI structural construction patterns."""
         findings = []
-        full_text = "\n".join(lines)
+        cleaned_lines = []
+        in_code = False
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith("```"):
+                in_code = not in_code
+                cleaned_lines.append("")
+                continue
+            if in_code:
+                cleaned_lines.append("")
+            else:
+                cleaned_lines.append(line)
+        full_text = "\n".join(cleaned_lines)
         for pattern, label in CONSTRUCTION_PATTERNS:
             for match in pattern.finditer(full_text):
                 line_num = full_text.count("\n", 0, match.start()) + 1
@@ -746,7 +773,7 @@ class ProseEngine:
     def scan_copula_avoidance(self, lines: Sequence[str]) -> List[Tuple[int, str, str]]:
         """Flag avoidance of direct copula verbs (such as 'serves as', 'boasts')."""
         findings = []
-        for line_num, line in enumerate(lines, 1):
+        for line_num, line in self._filter_code_lines(lines):
             for m in COPULA_AVOIDANCE_RE.finditer(line):
                 if any(ex.search(line) for ex in COPULA_EXEMPTIONS):
                     continue
@@ -756,7 +783,7 @@ class ProseEngine:
     def scan_sycophancy(self, lines: Sequence[str]) -> List[Tuple[int, str]]:
         """Flag sycophancy and performative conversational openers."""
         findings = []
-        for line_num, line in enumerate(lines, 1):
+        for line_num, line in self._filter_code_lines(lines):
             lower = line.lower()
             for phrase in SYCOPHANCY_PHRASES:
                 if phrase in lower:
@@ -829,7 +856,7 @@ class ProseEngine:
         # 3. Non-ASCII characters
         non_ascii = self.scan_non_ascii(lines)
         if non_ascii:
-            chars = ", ".join(f"{name} (L{n})" for n, name, _ in non_ascii[:5])
+            chars = ", ".join(f"{name} (L{n}, {repl})" for n, name, repl in non_ascii[:5])
             record("non_ascii", f"Non-ASCII characters: {chars}", non_ascii[0][0], non_ascii[0][2])
 
         # 4. -ize spellings
