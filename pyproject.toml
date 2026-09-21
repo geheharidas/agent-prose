@@ -27,6 +27,17 @@ classifiers = [
     "Topic :: Software Development :: Quality Assurance",
     "Topic :: Text Processing :: Linguistic",
 ]
+keywords = [
+    "llm",
+    "autonomous-agents",
+    "anti-rlhf",
+    "stylometrics",
+    "writing-quality",
+    "pre-commit",
+    "linter",
+    "burstiness",
+    "cadence",
+]
 dependencies = []
 
 [project.scripts]

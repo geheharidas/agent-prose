@@ -18,7 +18,7 @@ from agent_prose.profiles import resolve_locale
 SCANNABLE_EXTENSIONS = {".md", ".txt", ".html"}
 DEFAULT_EXCLUDES = {
     ".git", "node_modules", ".venv", "venv", "__pycache__",
-    "site-packages", "dist", "build", ".pytest_cache",
+    "site-packages", "dist", "build", ".pytest_cache", "fixtures",
 }
 
 
