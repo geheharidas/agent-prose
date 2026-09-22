@@ -1,47 +1,35 @@
-# Announcing agent-prose: An Anti-RLHF Stylometric Gate
+<!-- writing-quality: off -->
+<!-- agent-prose: off -->
+# Announcing agent-prose: Deterministic Stylometric Gate for AI-Generated Text
 
-Most AI linters search for human spelling errors.
+Teams that let autonomous agents write documentation meet the same quiet failure. The page reads like a press release. The sentences are uniform, evasive and over-hedged. A spelling check passes. A human reader still marks it as machine text.
 
-Large language models rarely make those mistakes.
+The habits are consistent across model families trained with Reinforcement Learning from Human Feedback.
 
-They miss the real reason readers detect machine prose in three seconds: uniform sentence length, evasive verbs and artificial symmetry.
+**Monotone cadence.** Four or five consecutive sentences land within a few words of each other. The reader feels the rhythm before they name it.
 
-When foundation models undergo reinforcement training, they develop repetitive structural habits:
+**Copula avoidance.** Instead of "X is Y", the model substitutes an evasive linking phrase. The substitution is reflexive.
 
-First, monotone cadence. Systems output four or five consecutive sentences of nearly identical length.
+**Prestige scaffolding.** Academic filler clusters together. The words add no information. They perform seriousness.
 
-Second, evasive linking verbs. Models decline to write direct statements. They choose weak filler instead of a direct 'is'.
+**Synthetic balance.** Clauses are forced into a symmetry the ideas do not have.
 
-Third, synthetic symmetry. Sentences get forced into formulaic balance clauses.
+**Trailing participial tails.** A sentence that should end acquires ", ensuring..." or ", enabling...". The clause adds nothing.
 
-Fourth, weak tails. Paragraphs end with repetitive participial phrases.
+When those habits reach production documentation, they cost credibility with the readers who notice. Those are the readers who matter.
 
-In autonomous agent swarms, written quality reflects company credibility.
+Today, Nitivra releases `agent-prose`.
 
-When an automated agent drafts technical specifications or architecture records, generic boilerplate erodes client trust.
+`agent-prose` is a zero-dependency Python quality gate and pre-commit hook. It detects the five habits above with the Python standard library. It runs in CI or as a pre-commit hook. Dialect packs cover Australian, American and British English.
 
-Engineering teams need deterministic quality gates in their deployment pipelines.
+Install it:
 
-Today, Nitivra releases agent-prose.
+    pip install agent-prose
 
-It is an open-source Python quality gate.
+Or run without a permanent install:
 
-Zero dependencies.
+    uv tool run agent-prose README.md
 
-Execution takes under two milliseconds.
+Repository: https://github.com/geheharidas/agent-prose
 
-The engine calculates syntactic variance across sliding five-sentence windows, requiring a standard deviation above 6.0 to break robotic cadence.
-
-It provides native profiles for Australian English, American English and British English.
-
-Supported platforms include Claude, Gemini and Grok, alongside Meta Muse and Microsoft Copilot.
-
-The package is available on PyPI and GitHub under the MIT License.
-
-Install:
-pip install agent-prose
-
-Repository:
-https://github.com/geheharidas/agent-prose
-
-How does your engineering team manage textual quality in autonomous agent workflows?
+Which agent platform produces the most consistent prestige scaffolding in your docs, and has anything fixed it at generation time?
