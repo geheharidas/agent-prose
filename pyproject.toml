@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agent-prose"
-version = "1.0.1"
+version = "1.0.2"
 description = "Deterministic Anti-RLHF Stylometric Gate for Autonomous Agents by Nitivra"
 readme = "README.md"
 license = "MIT"

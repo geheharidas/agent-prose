@@ -109,7 +109,7 @@ Add the hook to `.pre-commit-config.yaml`:
 ```yaml
 repos:
   - repo: https://github.com/geheharidas/agent-prose
-    rev: v1.0.1
+    rev: v1.0.2
     hooks:
       - id: agent-prose
         args: ["--locale", "en-AU"]
